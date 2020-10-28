@@ -239,3 +239,57 @@ class BaseTest:
     @staticmethod
     def get_cluster_install_config(cluster_id, api_client):
         return yaml.load(api_client.get_cluster_install_config(cluster_id), Loader=yaml.SafeLoader)
+
+    @staticmethod
+    def register_dummy_host(cluster_id, api_client):
+        dummy_host_id = "b164df18-0ff1-4b85-9121-059f10f58f71"
+        api_client.register_host(cluster_id, dummy_host_id)
+
+    @staticmethod
+    def get_cluster_host_ids(cluster_id, api_client):
+        host_ids = []
+        hosts = api_client.get_cluster_hosts(cluster_id)
+
+        for host in hosts:
+            host_ids.append(host['id'])
+        
+        return host_ids
+
+    @staticmethod
+    def host_fail_cluster_install(cluster_id, host_id, api_client):
+        api_client.host_update_progress(cluster_id, host_id, "Failed")
+
+    @staticmethod
+    def complete_cluster_installation(cluster_id, api_client):
+        api_client.complete_cluster_installation(cluster_id=cluster_id, is_success=True)
+
+    @staticmethod
+    def assert_http_error_code(api_client, api_call, status, reason, **kwargs):
+        with pytest.raises(ApiException) as response:
+            api_call(api_client=api_client, **kwargs)
+        assert response.value.status == status
+        assert response.value.reason == reason
+
+    @staticmethod
+    def get_cluster(cluster_id, api_client):
+        return api_client.cluster_get(cluster_id)
+
+    @staticmethod
+    def delete_cluster(cluster_id, api_client):
+        api_client.delete_cluster(cluster_id)
+    
+    @staticmethod
+    def get_cluster_hosts(cluster_id, api_client):
+        return api_client.get_cluster_hosts(cluster_id)
+    
+    @staticmethod
+    def host_get_next_step(cluster_id, host_id, api_client):
+        return api_client.host_get_next_step(cluster_id, host_id)
+
+    @staticmethod
+    def download_kubeconfig_no_ingress(cluster_id, api_client, kubeconfig_path=env_variables['kubeconfig_path']):
+        api_client.download_kubeconfig_no_ingress(cluster_id, kubeconfig_path)
+
+    @staticmethod
+    def get_cluster_admin_credentials(cluster_id, api_client):
+        return api_client.get_cluster_admin_credentials(cluster_id=cluster_id)

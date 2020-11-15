@@ -1,3 +1,4 @@
+import logging
 import pytest
 from contextlib import suppress
 from typing import Optional
@@ -47,6 +48,7 @@ class TestAuth(BaseTest):
 
     @pytest.mark.regression
     def test_user_authorization_negative(self, api_client, nodes, cluster):
+        logging.info(f'----------- SECOND_OFFLINE_TOKEN ---------- {SECOND_OFFLINE_TOKEN}\n')
         client_user1 = api_client()
         client_user2 = api_client(offline_token=SECOND_OFFLINE_TOKEN)
 
@@ -135,6 +137,7 @@ class TestAuth(BaseTest):
 
     @pytest.mark.regression
     def test_agent_authorization_negative(self, api_client, nodes, cluster):
+        logging.info(f'----------- SECOND_PULL_SECRET ---------- {SECOND_PULL_SECRET}\n')
         client_user1 = api_client()
         client_user2 = api_client(
             offline_token='',

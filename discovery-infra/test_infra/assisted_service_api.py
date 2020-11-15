@@ -27,6 +27,7 @@ class InventoryClient(object):
         self.events = api.EventsApi(api_client=self.api)
 
     def set_config_auth(self, c, offline_token):
+        log.info(f'----------OFFLINE_TOKEN for api client----------{offline_token}')
         if not offline_token:
             log.info("OFFLINE_TOKEN not set, skipping authentication headers")
             return
@@ -69,6 +70,7 @@ class InventoryClient(object):
 
         log.info("Setting X-Secret-Key")
         c.api_key['X-Secret-Key'] = json.loads(pull_secret)['auths']['cloud.openshift.com']['auth']
+        log.info(f"----------X_SECRET_KEY for api client----------{c.api_key['X-Secret-Key']}")
 
     def wait_for_api_readiness(self):
         log.info("Waiting for inventory api to be ready")

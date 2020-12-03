@@ -1,0 +1,5 @@
+# include Makefile Dockerfile.test-infra skipper.yaml requirements.txt 
+graft assisted_test_infra/data
+graft terraform_files
+graft ssh_key
+graft storage_pool

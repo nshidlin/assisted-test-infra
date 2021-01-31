@@ -365,3 +365,14 @@ class LibvirtController(NodeController, ABC):
         dom = self.libvirt_connection.lookupByName(node_name)
         current_xml = dom.XMLDesc(0)
         return minidom.parseString(current_xml.encode('utf-8'))
+
+    def list_interfaces(self, node_name):
+        xml = self._get_xml(node_name)
+        interfaces = xml.getElementsByTagName('interface')
+        interfaces_dict = {}
+        for interface in interfaces:
+            name = interface.getElementsByTagName('target')[0].attributes['dev'].value
+            mac_address = interface.getElementsByTagName('mac')[0].attributes['address'].value
+            interfaces_dict[mac_address] = name
+
+        return interfaces_dict 

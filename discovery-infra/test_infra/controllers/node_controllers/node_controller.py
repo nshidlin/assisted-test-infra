@@ -12,6 +12,10 @@ class NodeController(ABC):
     def list_networks(self) -> List[Any]:
         pass
 
+    @abstractmethod 
+    def list_interfaces(self, node_name: str) -> List[Any]:
+        pass
+
     @abstractmethod
     def list_leases(self, network_name: str) -> List[Any]:
         pass

@@ -145,3 +145,6 @@ class Node:
 
     def detach_all_test_disks(self):
         self.node_controller.detach_all_test_disks(self.name)
+
+    def list_interfaces(self):
+        return self.node_controller.list_interfaces(self.name)

@@ -89,14 +89,18 @@ def api_client():
     yield get_api_client()
 
 
-def get_api_client(offline_token=env_variables['offline_token'], **kwargs):
+def get_api_client(
+    offline_token=env_variables['offline_token'],
+    pull_secret=env_variables['pull_secret'], 
+    **kwargs
+):
     url = env_variables['remote_service_url']
 
     if not url:
         url = utils.get_local_assisted_service_url(
             utils.get_env('PROFILE'), env_variables['namespace'], 'assisted-service', utils.get_env('DEPLOY_TARGET'))
 
-    return assisted_service_api.create_client(url, offline_token, **kwargs)
+    return assisted_service_api.create_client(url, offline_token, pull_secret,**kwargs)
 
 
 @pytest.fixture(scope="session")

@@ -171,7 +171,7 @@ class BaseTest:
                 node_obj.destroy_network(added_network.get("network"))
 
     @pytest.fixture()
-    def proxy_server(self):
+    def proxy_server(self, cluster):
         logging.info('--- SETUP --- proxy controller')
         proxy_servers = []
 
